@@ -1,0 +1,122 @@
+<resources>
+
+    <string-array name="specialis_array">
+        <item>Opción 1</item>
+        <item>Opción 2</item>
+        <item>Opción 3</item>
+        <!-- Agrega más elementos según sea necesario -->
+    </string-array>
+
+    <string name="username">Joko</string>
+    <string name="app_name">Codoc</string>
+    <string name="doctor_s_name_email_or_phone">Nombre del doctor, Email o Teléfono</string>
+    <string name="condition_severe_pain">Dolor intenso</string>
+    <string name="condition_mild_pain">Dolor leve</string>
+    <string name="condition_no_pain">Sin dolor</string>
+    <string name="book_an_appointment">Agendar una cita</string>
+    <string name="please_upload_your_prescription_in_settings_tab">Por favor, sube tu receta en la pestaña de ajustes</string>
+    <string name="want_to_book_an_appointment">¿Quieres agendar una cita?</string>
+    <string name="book">Agendar</string>
+    <string name="appointment_summary">Resumen de la cita</string>
+    <string name="successfully_booked_an_appointment">Cita agendada exitosamente</string>
+    <string name="back_to_home">Volver al inicio</string>
+    <string name="please_fill_the_form_below">Por favor, completa el siguiente formulario</string>
+    <string name="select_time">Seleccionar hora</string>
+    <string name="select_date">Seleccionar hora</string>
+    <string name="select_penyakit">Seleccionar enfermedad</string>
+    <string name="select_spesialis">Seleccionar especialista</string>
+    <string name="confirm_your_appointment">Confirma tu cita</string>
+    <string name="note_you_must_enter_the_correct_information_entering_wrong_information_might_lead_to_cancellation_of_your_future_appointments">
+        Nota: Debes ingresar la información correcta. Ingresar datos erróneos puede llevar a la cancelación de tus futuras citas.
+    </string>
+    <string name="mon_fri_09_00_21_00">09:00 - 17:00</string>
+    <string name="working_hours">Horario laboral</string>
+    <string name="your_appointment">Tu cita</string>
+    <string name="patient_queue">Cola de pacientes</string>
+    <string name="settings">Ajustes</string>
+    <string name="configure_changes">Configurar cambios</string>
+    <string name="blood_pressure">Presión arterial</string>
+    <string name="add_data">Agregar datos</string>
+    <string name="biological_reference_80_120">Referencia biológica: 80–120</string>
+    <string name="min_loading_max_loading">Mín: Cargando, Máx: Cargando</string>
+    <string name="sugar_fasting">Glucosa en ayunas</string>
+    <string name="biological_reference_70_100">Referencia biológica: 70–100</string>
+    <string name="sugar_pp">Glucosa postprandial</string>
+    <string name="cholesterol">Colesterol</string>
+    <string name="rate_user">Calificar usuario</string>
+    <string name="submit_rating">Enviar calificación</string>
+    <string name="dispute_a_rating">Impugnar calificación</string>
+    <string name="report_any_unfair_or_inaccurate_ratings_you_have_received_we_will_review_your_report_and_take_appropriate_action">
+        Reporta cualquier calificación injusta o inexacta que hayas recibido. Revisaremos tu reporte y tomaremos las medidas adecuadas.
+    </string>
+    <string name="enter_your_title_here">Ingresa tu título aquí *</string>
+    <string name="reason_for_dispute">Motivo de la impugnación *</string>
+    <string name="submit_dispute">Enviar impugnación</string>
+    <string name="enter_your_comment_here_optional">Ingresa tu comentario aquí (opcional)</string>
+    <string name="create_or_edit_your_upi">Crear o editar tu UPI</string>
+    <string name="upi_manager">Administrador de UPI</string>
+    <string name="add_prescription">Agregar receta</string>
+    <string name="select_prescription">Seleccionar receta</string>
+    <string name="upload_file">Subir archivo</string>
+    <string name="file_title">Título del archivo</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="profile">Perfil</string>
+    <string name="optional">Opcional</string>
+    <string name="search">Buscar</string>
+    <string name="register">Registrar</string>
+    <string name="create_a_new_account">Crear una nueva cuenta</string>
+    <string name="password_hint">***************</string>
+    <string name="phone_number_hint">+52 9876543210</string>
+    <string name="email_hint">johndoe123@gmail.com</string>
+    <string name="email">Correo electrónico</string>
+    <string name="name_hint">Juan Pérez</string>
+    <string name="name">Nombre</string>
+    <string name="phone_number">Número telefónico</string>
+    <string name="password">Contraseña</string>
+    <string name="next_step">Siguiente paso</string>
+    <string name="already_have_an_account">¿Ya tienes una cuenta?</string>
+    <string name="login_text">Iniciar sesión</string>
+    <string name="profile_details">Detalles del perfil</string>
+    <string name="address_hint">42/C Devanagari, Ciudad de México - XXXXX</string>
+    <string name="is_doctor_hint">No, no soy doctor</string>
+    <string name="are_you_a_doctor">¿Eres doctor?</string>
+    <string name="address">Dirección</string>
+    <string name="specialization_hint">Ej. Cardiólogo</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="your_database_was_created">Tu base de datos fue creada</string>
+    <string name="account_creation_failed">Fallo al crear la cuenta</string>
+    <string name="database_creation_failed">Fallo al crear la base de datos</string>
+    <string name="account_created_successfully">Cuenta creada exitosamente</string>
+    <string name="please_select_your_profession">Por favor selecciona tu profesión</string>
+    <string name="please_select_your_specialization">Por favor selecciona tu especialidad</string>
+    <string name="please_select_your_gender">Por favor selecciona tu género</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="enter_your_details_to_get_started">Ingresa tus datos para comenzar</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="don_t_have_an_account">¿No tienes una cuenta?</string>
+    <string name="logged_in">Sesión iniciada</string>
+    <string name="send_reset_mail">Enviar correo de restablecimiento</string>
+    <string name="enter_your_registered_email_address">Ingresa tu correo electrónico registrado</string>
+    <string name="upload_prescription">Subir receta</string>
+    <string name="upi_qr">Código QR UPI</string>
+    <string name="about_us">Sobre nosotros</string>
+    <string name="feedback">Comentarios</string>
+    <string name="need_help">¿Necesitas ayuda?</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="update_profile">Actualizar perfil</string>
+    <string name="invalid_name">Nombre inválido</string>
+    <string name="invalid_age">Edad inválida</string>
+    <string name="invalid_phone_number">Número de teléfono inválido</string>
+    <string name="invalid_address">Dirección inválida</string>
+    <string name="customize_your_profile">Personaliza tu perfil</string>
+    <string name="profile_updated_successfully">¡Perfil actualizado exitosamente!</string>
+    <string name="failed_to_update_profile">¡Error al actualizar el perfil!</string>
+    <string name="no_address_found">Dirección no encontrada</string>
+    <string name="welcome_to_medify">Bienvenido a Medify</string>
+    <string name="description">Medify es una aplicación Android que no solo resuelve los problemas de los pacientes como usuarios, sino también los de los doctores. Ofrece a los usuarios la posibilidad de agendar citas con los doctores registrados. La cola de espera se ordena por prioridad, no por “Primero en llegar”, lo que permite igualdad de atención. Los usuarios pueden monitorear sus datos de salud en gráficas basadas en los últimos 5 registros.</string>
+    <string name="needHelpDescription">Medify es una aplicación Android que resuelve tanto problemas de pacientes como de doctores. Agenda una cita fácilmente respondiendo algunas preguntas sobre tu salud. No es necesario llevar recetas anteriores al doctor: solo súbelas aquí y estarán disponibles al momento de la cita.</string>
+    <string name="hello_blank_fragment">Hola, fragmento en blanco</string>
+
+</resources>

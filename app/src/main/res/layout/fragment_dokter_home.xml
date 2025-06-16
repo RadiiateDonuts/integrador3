@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentDokterHome">
+
+    <!-- Fondo con gradiente -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        tools:context=".activity.dokter.HomeDokterActivity">
+
+        <!-- Texto de bienvenida -->
+        <TextView
+            android:id="@+id/nameDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/dmsans_medium"
+            android:text="Hola, Dr."
+            android:textColor="@color/green_shade_light_2"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Nombre del doctor -->
+        <TextView
+            android:id="@+id/namadokter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/dmsans_medium"
+            android:text="Joe"
+            android:textColor="@color/green_shade_light_2"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@id/nameDisplay"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/want_to_book_an_appointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dmsans_regular"
+            android:text="Aquí está la lista de citas de sus pacientes:"
+            android:textColor="@color/green_shade_light_2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/nameDisplay"
+            app:layout_constraintTop_toBottomOf="@id/nameDisplay" />
+
+        <!-- Fondo blanco con esquinas redondeadas -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_home"
+            app:layout_constraintTop_toBottomOf="@id/want_to_book_an_appointment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Contenedor del RecyclerView -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="60dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Lista de citas -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewDoctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/janji_card_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

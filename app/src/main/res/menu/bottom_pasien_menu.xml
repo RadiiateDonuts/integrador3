@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Inicio"/>
+
+    <item android:id="@+id/stats"
+        android:icon="@drawable/dna"
+        android:title="Estadísticas"/>
+
+    <item android:id="@+id/appointment"
+        android:icon="@drawable/stethoscope"
+        android:title="Citas"/>
+
+    <item android:id="@+id/settings"
+        android:icon="@drawable/menu"
+        android:title="Perfil"/>
+</menu>

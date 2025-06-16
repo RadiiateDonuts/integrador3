@@ -1,0 +1,67 @@
+package com.example.codoc.activity.pasien
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import com.example.codoc.FragmentBerita
+import com.example.codoc.FragmentPasienHome
+import com.example.codoc.FragmentPasienMyJanji
+import com.example.codoc.FragmentPasienSettings
+import com.example.codoc.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+class HomePasienActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home_pasien)
+
+        // Ocultar la barra de título
+        getSupportActionBar()?.hide()
+
+        // Instancias
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottomNav)
+
+        // Crear fragmentos
+        val homeFragment = FragmentPasienHome()
+        val settingsFragment = FragmentPasienSettings()
+        val myJanjiFragment = FragmentPasienMyJanji()
+        val beritaFragment = FragmentBerita()
+
+        // Fragmento predeterminado
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, homeFragment)
+            commit()
+        }
+        currentFragment(homeFragment)
+
+        // Navegación entre fragmentos con el menú inferior
+        bottomNav.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> {
+                    currentFragment(homeFragment)
+                    true
+                }
+                R.id.appointment -> {
+                    currentFragment(myJanjiFragment)
+                    true
+                }
+                R.id.settings -> {
+                    currentFragment(settingsFragment)
+                    true
+                }
+                R.id.stats -> {
+                    currentFragment(beritaFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun currentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, fragment)
+            commit()
+        }
+}
