@@ -4,7 +4,6 @@
         <item>Opción 1</item>
         <item>Opción 2</item>
         <item>Opción 3</item>
-        <!-- Agrega más elementos según sea necesario -->
     </string-array>
 
     <string name="username">Joko</string>
@@ -118,5 +117,16 @@
     <string name="description">Medify es una aplicación Android que no solo resuelve los problemas de los pacientes como usuarios, sino también los de los doctores. Ofrece a los usuarios la posibilidad de agendar citas con los doctores registrados. La cola de espera se ordena por prioridad, no por “Primero en llegar”, lo que permite igualdad de atención. Los usuarios pueden monitorear sus datos de salud en gráficas basadas en los últimos 5 registros.</string>
     <string name="needHelpDescription">Medify es una aplicación Android que resuelve tanto problemas de pacientes como de doctores. Agenda una cita fácilmente respondiendo algunas preguntas sobre tu salud. No es necesario llevar recetas anteriores al doctor: solo súbelas aquí y estarán disponibles al momento de la cita.</string>
     <string name="hello_blank_fragment">Hola, fragmento en blanco</string>
+    <string name="news_image_desc">Imagen de la noticia</string>
+
+    <!-- 🔧 NUEVAS PARA PERFIL EDITABLE DEL PACIENTE -->
+    <string name="edit_name_hint">Ingresa tu nombre</string>
+    <string name="edit_ttl_hint">Selecciona tu fecha de nacimiento</string>
+    <string name="edit_phone_hint">Ingresa tu número telefónico</string>
+    <string name="save_profile_button">Guardar perfil</string>
+    <string name="loading_profile">Cargando perfil...</string>
+    <string name="update_success">Datos actualizados correctamente</string>
+    <string name="update_error">Error al actualizar los datos</string>
+    <string name="profile_title">Editar perfil</string>
 
 </resources>

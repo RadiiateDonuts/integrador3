@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginVertical="5dp"
-    android:elevation="0dp"
     android:padding="5dp"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
     app:cardElevation="0dp"
-    app:cardCornerRadius="10dp">
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/card_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewrekom">
+        android:padding="8dp">
 
+        <!-- Email invisible, usado internamente -->
         <TextView
             android:id="@+id/emailDokter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dmsans_regular"
-            android:visibility="invisible"
             android:textSize="13sp"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- ID de cita -->
         <TextView
             android:id="@+id/idJanji"
             android:layout_width="wrap_content"
@@ -47,6 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Nombre del doctor -->
         <TextView
             android:id="@+id/textNama"
             android:layout_width="0dp"
@@ -56,22 +53,26 @@
             android:fontFamily="@font/dmsans_regular"
             android:text="Dr. Ahmad Aldi"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/idJanji"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/idJanji"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/jamtext"
+            app:layout_constraintHorizontal_bias="0.0" />
 
+        <!-- Especialidad -->
         <TextView
             android:id="@+id/Spesialis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:fontFamily="@font/dmsans_regular"
             android:text="Médico general"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textNama"
-            app:layout_constraintTop_toBottomOf="@+id/textNama" />
+            app:layout_constraintStart_toStartOf="@id/textNama"
+            app:layout_constraintTop_toBottomOf="@id/textNama"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
+        <!-- Hora de la cita -->
         <TextView
             android:id="@+id/jamtext"
             android:layout_width="wrap_content"
@@ -81,20 +82,22 @@
             android:fontFamily="@font/dmsans_regular"
             android:text="11:00 - 22:00"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/textNama"
+            app:layout_constraintStart_toEndOf="@id/textNama"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Fecha de la cita -->
         <TextView
             android:id="@+id/tanggaltext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/dmsans_regular"
             android:text="05-11-2023"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/jamtext"
-            app:layout_constraintTop_toBottomOf="@+id/jamtext" />
+            app:layout_constraintTop_toBottomOf="@id/jamtext"
+            app:layout_constraintStart_toStartOf="@id/jamtext" />
 
+        <!-- Botón de editar -->
         <ImageButton
             android:id="@+id/buttonEdit"
             android:layout_width="30dp"
@@ -103,11 +106,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/editfield"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="Editar"
             app:layout_constraintEnd_toStartOf="@+id/buttonDelete"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/edit" />
 
+        <!-- Botón de eliminar -->
         <ImageButton
             android:id="@+id/buttonDelete"
             android:layout_width="30dp"
@@ -116,11 +121,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/editfield"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="Eliminar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/trash" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

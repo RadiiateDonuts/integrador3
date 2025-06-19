@@ -1,7 +1,8 @@
 package com.example.codoc.activity.pasien
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.codoc.FragmentBerita
 import com.example.codoc.FragmentPasienHome
@@ -17,25 +18,28 @@ class HomePasienActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home_pasien)
 
         // Ocultar la barra de título
-        getSupportActionBar()?.hide()
+        supportActionBar?.hide()
 
-        // Instancias
+        // Obtener el email del usuario logueado (si existe)
+        val sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE)
+        val email = sharedPref.getString("email", null)
+
+        // Puedes usar ese email para mostrar mensajes o pasar al fragment
+        // println("Usuario logueado: $email") // DEBUG opcional
+
+        // Instanciar el menú de navegación inferior
         val bottomNav: BottomNavigationView = findViewById(R.id.bottomNav)
 
-        // Crear fragmentos
+        // Crear instancias de los fragmentos
         val homeFragment = FragmentPasienHome()
         val settingsFragment = FragmentPasienSettings()
         val myJanjiFragment = FragmentPasienMyJanji()
         val beritaFragment = FragmentBerita()
 
-        // Fragmento predeterminado
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, homeFragment)
-            commit()
-        }
+        // Mostrar el fragmento principal por defecto
         currentFragment(homeFragment)
 
-        // Navegación entre fragmentos con el menú inferior
+        // Manejar navegación entre fragmentos
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
@@ -59,9 +63,11 @@ class HomePasienActivity : AppCompatActivity() {
         }
     }
 
-    private fun currentFragment(fragment: Fragment) =
+    // Reemplazar el fragmento actual en pantalla
+    private fun currentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             commit()
         }
+    }
 }

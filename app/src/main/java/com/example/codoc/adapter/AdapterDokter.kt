@@ -7,57 +7,47 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.codoc.activity.dokter.DetailDokterActivity
 import com.example.codoc.R
-import com.example.codoc.activity.dokter.ProfileDokterActivity
+import com.example.codoc.activity.pasien.TambahJanjiActivity
 import com.example.codoc.model.ProfileDokterModel
 
 class AdapterDokter(var listDokter: List<ProfileDokterModel>) : RecyclerView.Adapter<AdapterDokter.ViewHolder>() {
 
-    // Actualizar datos para todos los que usan el adaptador
     fun updateData(newList: List<ProfileDokterModel>) {
         listDokter = newList
         notifyDataSetChanged()
     }
 
-    // Para inflar el layout doctor_card_layout
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val email: TextView = itemView.findViewById(R.id.emailDokter)
-        val nama: TextView = itemView.findViewById(R.id.textNama)
-        val spesialis: TextView = itemView.findViewById(R.id.Spesialis)
-        val rumahsakit: TextView = itemView.findViewById(R.id.rumahSakit)
-        val butt: Button = itemView.findViewById(R.id.book_button)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val email: TextView = view.findViewById(R.id.emailDokter)
+        val nama: TextView = view.findViewById(R.id.textNama)
+        val spesialis: TextView = view.findViewById(R.id.Spesialis)
+        val rumahSakit: TextView = view.findViewById(R.id.rumahSakit)
+        val button: Button = view.findViewById(R.id.book_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.doctor_card_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.doctor_card_layout, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val modelDokter = listDokter[position]
+        val dokter = listDokter[position]
+        holder.email.text = dokter.email
+        holder.nama.text = dokter.nama
+        holder.spesialis.text = dokter.spesialis
+        holder.rumahSakit.text = dokter.alamat
 
-        holder.email.text = modelDokter.email
-        holder.nama.text = modelDokter.nama
-        holder.spesialis.text = modelDokter.spesialis
-        holder.rumahsakit.text = modelDokter.alamat
-        holder.butt.text = "Agendar"
-        holder.butt.setOnClickListener {
-            // Crear Intent para abrir la actividad de detalle
-            val intent = Intent(holder.itemView.context, DetailDokterActivity::class.java)
-            // Añadir el modelo del doctor al Intent
-            intent.putExtra("DokterModel", modelDokter)
-            // Iniciar la nueva actividad
-            holder.itemView.context.startActivity(intent)
-
-            ProfileDokterActivity.name = holder.nama.text.toString()
-            ProfileDokterActivity.email = holder.email.text.toString()
-            ProfileDokterActivity.spesialis = holder.spesialis.text.toString()
+        holder.button.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, TambahJanjiActivity::class.java).apply {
+                putExtra("namaDokter", dokter.nama)
+                putExtra("emailDokter", dokter.email)
+                putExtra("spesialis", dokter.spesialis)
+            }
+            context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int {
-        return listDokter.size
-    }
+    override fun getItemCount(): Int = listDokter.size
 }

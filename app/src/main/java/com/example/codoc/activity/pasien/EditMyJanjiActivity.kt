@@ -2,21 +2,12 @@ package com.example.codoc.activity.pasien
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import com.example.codoc.DatabaseHelper
-import com.example.codoc.FragmentDokterMyJanji
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.example.codoc.R
-import com.example.codoc.model.MyJanjiModel
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,23 +16,15 @@ class EditMyJanjiActivity : AppCompatActivity() {
     private lateinit var selectDateEditText: TextInputEditText
     private lateinit var jamDropdown: AutoCompleteTextView
     private lateinit var btnUpdate: Button
+    private lateinit var keluhanEditText: TextInputEditText  // 👈 Nuevo campo
     private val calendar = Calendar.getInstance()
-    private val databaseHelper = DatabaseHelper(this)
-
-    companion object {
-        var idJanji = 1
-        var tanggalJanji = "prueba"
-        var jamJanji = "prueba"
-    }
+    private val firestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_my_janji)
-
-        // Ocultar la barra de título
         supportActionBar?.hide()
 
-        // Instanciar vistas
         val textId: TextInputEditText = findViewById(R.id.idJanji)
         val namaDokter: TextView = findViewById(R.id.namaDokter)
         val emailPasien: TextView = findViewById(R.id.emailPasien)
@@ -49,66 +32,87 @@ class EditMyJanjiActivity : AppCompatActivity() {
         val textTanggal: TextInputEditText = findViewById(R.id.editTanggal)
         val textJam: AutoCompleteTextView = findViewById(R.id.editJam)
         val spesialisDokter: TextView = findViewById(R.id.spesialisDokter)
+        keluhanEditText = findViewById(R.id.editKeluhan) // 👈 findViewById agregado
         btnUpdate = findViewById(R.id.buttonUpdate)
 
-        // Inicializar el campo de fecha
         selectDateEditText = findViewById(R.id.editTanggal)
-
-        // Configurar el menú desplegable de horario
         jamDropdown = findViewById(R.id.editJam)
         setupJamDropdown()
-
-        // Configurar selección de fecha
         setupTanggal()
 
-        // Obtener datos desde el intent
         val idJanji = intent.getStringExtra("ID_JANJI")
         val tanggalJanji = intent.getStringExtra("TANGGAL_JANJI")
         val jamJanji = intent.getStringExtra("JAM_JANJI")
+        val namaDokterVal = intent.getStringExtra("NAMA_DOKTER")
+        val emailDokterVal = intent.getStringExtra("EMAIL_DOKTER")
+        val emailPasienVal = intent.getStringExtra("EMAIL_PASIEN")
+        val spesialisVal = intent.getStringExtra("SPESIALIS")
+        val keluhanVal = intent.getStringExtra("KELUHAN")
 
-        // Establecer valores en las vistas
-        textId.setText(idJanji.toString())
+        textId.setText(idJanji)
         textTanggal.setText(tanggalJanji)
-
-        // Seleccionar valor en el dropdown
-        val jamOptions = arrayOf("09:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00")
-        val selectedJamPosition = jamOptions.indexOf(jamJanji)
-        textJam.setText(jamOptions[selectedJamPosition])
-
-        // Configurar el adaptador del dropdown
-        setupJamDropdown()
+        jamDropdown.setText(jamJanji)
+        keluhanEditText.setText(keluhanVal) // 👈 mostrar keluhan
 
         btnUpdate.setOnClickListener {
-            // Crear objeto de tipo DatabaseHelper
-            val databaseHelper = DatabaseHelper(this)
+            val idJanjiVal = textId.text.toString().trim()
+            val namaDokterFinal = namaDokter.text.toString().trim()
+            val emailPasienFinal = emailPasien.text.toString().trim()
+            val emailDokterFinal = emailDokter.text.toString().trim()
+            val tanggalJanjiFinal = textTanggal.text.toString().trim()
+            val jamJanjiFinal = jamDropdown.text.toString().trim()
+            val spesialisFinal = spesialisDokter.text.toString().trim()
+            val keluhanFinal = keluhanEditText.text.toString().trim()
 
-            val idJanji: String = textId.text.toString().trim()
-            val namaDokter: String = namaDokter.text.toString().trim()
-            val emailPasien: String = emailPasien.text.toString().trim()
-            val emailDokter: String = emailDokter.text.toString().trim()
-            val tanggalJanji: String = textTanggal.text.toString().trim()
-            val jamJanji: String = textJam.text.toString().trim()
-            val spesialis: String = spesialisDokter.text.toString().trim()
-
-            val janjiModel = MyJanjiModel(idJanji, namaDokter, emailPasien, emailDokter, tanggalJanji, jamJanji, spesialis)
-            databaseHelper.updateJanji(janjiModel)
-
-            // Ir a la pantalla principal del paciente
-            val intent = Intent(this, HomePasienActivity::class.java)
-            startActivity(intent)
-            finish()
+            // Validar disponibilidad
+            firestore.collection("janji")
+                .whereEqualTo("emailDokter", emailDokterFinal)
+                .whereEqualTo("tanggalJanji", tanggalJanjiFinal)
+                .whereEqualTo("jamJanji", jamJanjiFinal)
+                .get()
+                .addOnSuccessListener { result ->
+                    val hayConflicto = result.any { it.id != idJanjiVal }
+                    if (hayConflicto) {
+                        Toast.makeText(this, "Ese horario ya está ocupado para este doctor", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Si no hay conflicto, actualizar la cita
+                        val updatedData = mapOf(
+                            "namaDokter" to namaDokterFinal,
+                            "emailPasien" to emailPasienFinal,
+                            "emailDokter" to emailDokterFinal,
+                            "tanggalJanji" to tanggalJanjiFinal,
+                            "jamJanji" to jamJanjiFinal,
+                            "spesialis" to spesialisFinal,
+                            "keluhan" to keluhanFinal // 👈 guardar keluhan
+                        )
+                        firestore.collection("janji")
+                            .document(idJanjiVal)
+                            .update(updatedData)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Cita actualizada exitosamente", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, HomePasienActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Error al actualizar la cita", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error al verificar disponibilidad", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
     private fun setupJamDropdown() {
-        val jamOptions = arrayOf("09:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00")
+        val jamOptions = arrayOf(
+            "09:00 - 09:20", "09:20 - 09:40", "09:40 - 10:00",
+            "10:00 - 10:20", "10:20 - 10:40", "10:40 - 11:00",
+            "11:00 - 11:20", "11:20 - 11:40", "11:40 - 12:00",
+            "12:00 - 12:20", "12:20 - 12:40", "12:40 - 13:00"
+        )
         val adapterJam = ArrayAdapter(this, R.layout.dropdown_item, jamOptions)
         jamDropdown.setAdapter(adapterJam)
-
-        jamDropdown.setOnItemClickListener { _, _, position, _ ->
-            val selectedOption = adapterJam.getItem(position).toString()
-            // Hacer algo con la opción seleccionada
-        }
     }
 
     private fun setupTanggal() {
@@ -120,21 +124,19 @@ class EditMyJanjiActivity : AppCompatActivity() {
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            { _, year, month, dayOfMonth ->
                 val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, monthOfYear, dayOfMonth)
-
+                selectedDate.set(year, month, dayOfMonth)
                 if (selectedDate >= Calendar.getInstance()) {
                     updateDateInView(selectedDate)
                 } else {
-                    Toast.makeText(this, "Por favor selecciona una fecha futura", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Selecciona una fecha futura", Toast.LENGTH_SHORT).show()
                 }
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
-
         datePickerDialog.show()
     }
 

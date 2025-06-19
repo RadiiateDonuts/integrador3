@@ -1,41 +1,36 @@
 package com.example.codoc.activity.dokter
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Toast
-import com.example.codoc.DatabaseHelper
+import androidx.appcompat.app.AppCompatActivity
 import com.example.codoc.R
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterDokterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_dokter)
+        supportActionBar?.hide()
 
-        // Para el menú desplegable de especialidades
+        // Menú desplegable de especialidades
         val spesialDropdown = findViewById<AutoCompleteTextView>(R.id.spesial_dropdown)
         val spesialOptions = arrayOf(
-            "General",           // Umum
-            "Otorrinolaringología", // THT
-            "Dermatología",      // Kulit
-            "Odontología",       // Gigi
-            "Medicina interna",  // Penyakit Dalam
-            "Ginecología",       // Kandungan
-            "Neurología"         // Saraf
+            "General",
+            "Otorrinolaringología",
+            "Dermatología",
+            "Odontología",
+            "Medicina interna",
+            "Ginecología",
+            "Neurología"
         )
         val adapter = ArrayAdapter(this, R.layout.dropdown_item, spesialOptions)
         spesialDropdown.setAdapter(adapter)
-
-        // Opcional: Agregar listener para manejar la selección de especialidad
-        spesialDropdown.setOnItemClickListener { _, _, position, _ ->
-            val selectedOption = adapter.getItem(position).toString()
-            // Aquí se puede hacer algo con la opción seleccionada
-        }
 
         // Campos del formulario
         val txtEmail: TextInputLayout = findViewById(R.id.emailInput)
@@ -44,40 +39,49 @@ class RegisterDokterActivity : AppCompatActivity() {
         val txtAlamat: TextInputLayout = findViewById(R.id.alamatInput)
         val txtNoHp: TextInputLayout = findViewById(R.id.nomorInput)
         val txtPassword: TextInputLayout = findViewById(R.id.inputPassword)
-
-        // Instancia del botón de registro
         val btnRegister: Button = findViewById(R.id.buttonDaftar)
 
         btnRegister.setOnClickListener {
-            // Crear objeto de la clase DatabaseHelper
-            val databaseHelper = DatabaseHelper(this)
+            val email = txtEmail.editText?.text.toString().trim()
+            val name = txtFullname.editText?.text.toString().trim()
+            val specialis = txtSpecialis.editText?.text.toString().trim()
+            val alamat = txtAlamat.editText?.text.toString().trim()
+            val noHp = txtNoHp.editText?.text.toString().trim()
+            val password = txtPassword.editText?.text.toString().trim()
 
-            // Obtener datos del formulario
-            val email: String = txtEmail.editText?.text.toString().trim()
-            val name: String = txtFullname.editText?.text.toString().trim()
-            val specialis: String = txtSpecialis.editText?.text.toString().trim()
-            val alamat: String = txtAlamat.editText?.text.toString().trim()
-            val noHp: String = txtNoHp.editText?.text.toString().trim()
-            val password: String = txtPassword.editText?.text.toString().trim()
+            if (email.isEmpty() || name.isEmpty() || specialis.isEmpty()
+                || alamat.isEmpty() || noHp.isEmpty() || password.isEmpty()
+            ) {
+                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            // Verificar si el correo ya está registrado
-            val data: String = databaseHelper.checkDataDokter(email)
+            val key = email.replace(".", "_")
+            val ref = FirebaseDatabase.getInstance().getReference("akundokter")
 
-            // Si no está registrado
-            if (data == "") {
-                // Insertar datos
-                databaseHelper.addAccountDokter(email, name, specialis, alamat, noHp, password)
-                // Redirigir al Login
-                val intentLogin = Intent(this@RegisterDokterActivity, LoginDokterActivity::class.java)
-                startActivity(intentLogin)
-
-            } else {
-                // Si el correo ya está registrado
-                Toast.makeText(
-                    this@RegisterDokterActivity,
-                    "Registro fallido. El correo ya está registrado.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            ref.child(key).get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    Toast.makeText(this, "Este correo ya está registrado.", Toast.LENGTH_SHORT).show()
+                } else {
+                    val dokterData = mapOf(
+                        "name" to name,
+                        "specialis" to specialis,
+                        "alamat" to alamat,
+                        "noHp" to noHp,
+                        "password" to password
+                    )
+                    ref.child(key).setValue(dokterData)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, LoginDokterActivity::class.java))
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error al registrar", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error al conectar con Firebase", Toast.LENGTH_SHORT).show()
             }
         }
     }

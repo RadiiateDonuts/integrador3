@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/namaDokter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dr. Nombre Apellido"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/emailDokter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="doctor@email.com"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/spesialisDokter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Especialidad"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/emailPasien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="paciente@email.com"
+            android:layout_marginBottom="10dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Seleccionar Fecha">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTanggal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Seleccionar Hora">
+
+            <AutoCompleteTextView
+                android:id="@+id/editJam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Motivo de la cita">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editKeluhan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrar Cita"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+</ScrollView>

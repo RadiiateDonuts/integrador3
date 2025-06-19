@@ -8,23 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.codoc.DatabaseHelper
 import com.example.codoc.R
 import com.example.codoc.activity.pasien.EditMyJanjiActivity
-import com.example.codoc.activity.pasien.HomePasienActivity
 import com.example.codoc.model.MyJanjiModel
+import com.google.firebase.firestore.FirebaseFirestore
 
-class AdapterJanji(private var listDokter: List<MyJanjiModel>) :
-    RecyclerView.Adapter<AdapterJanji.ViewHolder>() {
+class AdapterJanji(
+    private var listDokter: MutableList<MyJanjiModel>,
+    private val context: Context
+) : RecyclerView.Adapter<AdapterJanji.ViewHolder>() {
 
-    // Actualizar la lista de citas y refrescar el RecyclerView
-    fun updateData(newList: List<MyJanjiModel>) {
-        listDokter = newList
-        notifyDataSetChanged()
-    }
+    private val db = FirebaseFirestore.getInstance()
 
-    // ViewHolder que representa cada tarjeta de cita (janji)
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nama: TextView = itemView.findViewById(R.id.textNama)
         private val spesialis: TextView = itemView.findViewById(R.id.Spesialis)
@@ -34,27 +32,31 @@ class AdapterJanji(private var listDokter: List<MyJanjiModel>) :
         private val editButton: ImageButton = itemView.findViewById(R.id.buttonEdit)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.buttonDelete)
 
-        // Asignar datos del modelo a los elementos de la vista
-        fun bind(modelDokter: MyJanjiModel) {
-            nama.text = modelDokter.namaDokter
-            spesialis.text = modelDokter.spesialis
-            jam.text = modelDokter.jamJanji
-            tanggal.text = modelDokter.tanggalJanji
-            idJanji.text = modelDokter.id_janji
+        fun bind(model: MyJanjiModel) {
+            nama.text = model.namaDokter
+            spesialis.text = model.spesialis
+            jam.text = model.jamJanji
+            tanggal.text = model.tanggalJanji
+            idJanji.text = model.id_janji
 
-            // Acción del botón Editar
             editButton.setOnClickListener {
-                handleEditButtonClick(
-                    modelDokter.id_janji,
-                    modelDokter.tanggalJanji,
-                    modelDokter.jamJanji,
-                    itemView.context
-                )
+                val intent = Intent(context, EditMyJanjiActivity::class.java).apply {
+                    putExtra("ID_JANJI", model.id_janji)
+                    putExtra("TANGGAL_JANJI", model.tanggalJanji)
+                    putExtra("JAM_JANJI", model.jamJanji)
+                    // Si usas más datos en EditMyJanjiActivity, agrégalos también aquí:
+                    putExtra("EMAIL_PASIEN", model.emailPasien)
+                    putExtra("EMAIL_DOKTER", model.emailDokter)
+                    putExtra("NAMA_DOKTER", model.namaDokter)
+                    putExtra("SPESIALIS", model.spesialis)
+                    putExtra("KELUHAN", model.keluhan)
+                }
+                context.startActivity(intent)
             }
 
-            // Acción del botón Eliminar
+
             deleteButton.setOnClickListener {
-                handleDeleteButtonClick(modelDokter.id_janji, itemView.context)
+                mostrarDialogoEliminar(model, adapterPosition)
             }
         }
     }
@@ -69,28 +71,39 @@ class AdapterJanji(private var listDokter: List<MyJanjiModel>) :
         holder.bind(listDokter[position])
     }
 
-    override fun getItemCount(): Int {
-        return listDokter.size
-    }
+    override fun getItemCount(): Int = listDokter.size
 
-    // Manejar la acción del botón Editar
-    private fun handleEditButtonClick(id: String, tanggalJanji: String, jamJanji: String, context: Context) {
-        Log.d("AdapterJanji", "Botón de edición presionado para ID: $id")
-        val intent = Intent(context, EditMyJanjiActivity::class.java)
-        intent.putExtra("ID_JANJI", id)
-        intent.putExtra("TANGGAL_JANJI", tanggalJanji)
-        intent.putExtra("JAM_JANJI", jamJanji)
-        context.startActivity(intent)
-    }
-
-    // Manejar la acción del botón Eliminar
-    private fun handleDeleteButtonClick(id: String, context: Context) {
-        Log.d("AdapterJanji", "Botón de eliminación presionado para ID: $id")
-        val intent = Intent(context, HomePasienActivity::class.java)
-        context.startActivity(intent)
-        val dbHelper = DatabaseHelper(context)
-        dbHelper.deleteJanji(id)
-        Log.d("AdapterJanji", "Eliminando cita con ID: $id")
+    fun updateData(newList: List<MyJanjiModel>) {
+        listDokter = newList.toMutableList()
         notifyDataSetChanged()
+    }
+
+    private fun mostrarDialogoEliminar(model: MyJanjiModel, position: Int) {
+        AlertDialog.Builder(context)
+            .setTitle("Eliminar cita")
+            .setMessage("¿Deseas eliminar la cita con ${model.namaDokter}?")
+            .setPositiveButton("Sí") { _, _ ->
+                db.collection("janji")
+                    .whereEqualTo("id_janji", model.id_janji)
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (doc in result) {
+                            db.collection("janji").document(doc.id).delete()
+                                .addOnSuccessListener {
+                                    listDokter.removeAt(position)
+                                    notifyItemRemoved(position)
+                                    Toast.makeText(context, "Cita eliminada", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "Error al eliminar", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error al buscar la cita", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 }

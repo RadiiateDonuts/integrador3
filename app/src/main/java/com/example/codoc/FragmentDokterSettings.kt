@@ -58,11 +58,19 @@ class FragmentDokterSettings : Fragment() {
         }
 
         // Cerrar sesión
+// Cerrar sesión
         val logOut: LinearLayout = view.findViewById(R.id.linearLayout5)
         logOut.setOnClickListener {
-            val intentSettingActivity = Intent(requireContext(), FirstActivity::class.java)
-            startActivity(intentSettingActivity)
+            // Borrar SharedPreferences del doctor
+            val sharedPref = requireActivity().getSharedPreferences("UserDokterData", android.content.Context.MODE_PRIVATE)
+            sharedPref.edit().clear().apply()
+
+            // Redirigir a FirstActivity y limpiar la pila
+            val intent = Intent(requireContext(), FirstActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
+
 
         return view
     }
