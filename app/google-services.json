@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "305453263782",
+    "project_id": "codocapp",
+    "storage_bucket": "codocapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305453263782:android:d4329b818e586a02b77d67",
+        "android_client_info": {
+          "package_name": "com.example.codoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKlxOasL4X8k7-TJYfM3UqBk7-Pwx3Crs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
